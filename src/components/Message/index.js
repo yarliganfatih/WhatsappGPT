@@ -18,7 +18,7 @@ const Message = ({ message }) => {
         },
       ]}
     >
-      <Text>{message.text}</Text>
+      <Text>{message.content}</Text>
       <Text style={styles.time}>{dayjs(message.createdAt).fromNow(true)}</Text>
     </View>
   );

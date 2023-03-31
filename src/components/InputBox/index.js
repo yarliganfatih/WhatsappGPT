@@ -3,19 +3,26 @@ import { View, StyleSheet, TextInput } from 'react-native';
 import { AntDesign, MaterialIcons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-const InputBox = () => {
+const InputBox = (props) => {
   const [newMessage, setNewMessage] = useState('');
 
   const onSend = () => {
-    console.warn('Sending a new message: ', newMessage);
-
-    setNewMessage('');
+    let msgArr = {
+      "content": newMessage,
+      "role": "user"
+    };
+    let userArr = {
+      "id": "u1",
+      "name": "Vadim"
+    }
+    if(newMessage) props.addMsg(msgArr, userArr);
+    setNewMessage("");
   };
 
   return (
     <SafeAreaView edges={['bottom']} style={styles.container}>
       {/* Icon */}
-      <AntDesign name="plus" size={20} color="royalblue" />
+      <AntDesign onPress={props.addAttachment} name="plus" size={20} color="royalblue" />
 
       {/* Text Input */}
       <TextInput
