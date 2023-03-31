@@ -8,19 +8,23 @@ import InputBox from '../components/InputBox';
 import bg from '../../assets/images/BG.png';
 import preMessages from '../../assets/data/messages.json';
 
+import { LogBox } from 'react-native';
+LogBox.ignoreLogs([
+  'Non-serializable values were found in the navigation state',
+]);
+
 const ChatScreen = () => {
   const route = useRoute();
   const navigation = useNavigation();
   const [messages, setMessages] = useState(preMessages);
-  const [counter, setCounter] = useState(0);
 
   useEffect(() => {
     Promise.resolve(asyncSetMessages()).catch((e) => { throw e; });
-    console.log("updated", counter, "times");
-  }, [counter]);
+  }, []);
 
   const asyncSetMessages = async() => {
-    const msg = await AsyncStorage.getItem('messages')
+    console.log("getting messages WHERE chat.id = ", route.params.id);
+    const msg = await AsyncStorage.getItem(`@messages:${route.params.id}`)
     if (msg) {
       setMessages(JSON.parse(msg));
     }
@@ -31,21 +35,20 @@ const ChatScreen = () => {
   }, [route.params.name]);
 
   const addAttachment = async() => {
-    console.log(await AsyncStorage.getItem('messages'));
     console.log("Not ready in this version.");
   }
 
   const addMsg = (msgArr, userArr, _messages = messages) => {
     msgArr.id = Date.now();
     msgArr.createdAt = new Date().toISOString();
+    route.params.updateChats(route.params.id, msgArr);
     msgArr.user = userArr;
 
     let updatedMsg = [msgArr, ..._messages];
     AsyncStorage.setItem(
-      'messages',
+      `@messages:${route.params.id}`,
       JSON.stringify(updatedMsg),
     );
-    //setCounter(counter + 1); // for rerender
     setMessages(updatedMsg);
     if(userArr.id=="u1"){
       sendMsgGPT(updatedMsg);
