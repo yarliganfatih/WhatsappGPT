@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { FlatList } from 'react-native';
-import { useRoute, useNavigation } from '@react-navigation/native';
+import { useRoute, useNavigation, useIsFocused } from '@react-navigation/native';
 import preContacts from '../../assets/data/contacts.json';
 import ContactListItem from '../components/ContactListItem';
 import SwipeableItem from '../components/Common/SwipeableItem';
@@ -9,12 +9,18 @@ import SwipeableItem from '../components/Common/SwipeableItem';
 const ContactsScreen = () => {
   const route = useRoute();
   const navigation = useNavigation();
+  const isFocused = useIsFocused();
+
   const [contacts, setContacts] = useState(preContacts);
-
+  const _setContacts = (_contacts) => {
+    AsyncStorage.setItem("@contacts", JSON.stringify(_contacts))
+    setContacts(_contacts)
+  }
   useEffect(() => {
-    Promise.resolve(asyncSetContacts()).catch((e) => { throw e; });
-  }, []);
-
+    if (isFocused) {
+      Promise.resolve(asyncSetContacts()).catch((e) => { throw e; });
+    }
+  }, [isFocused]);
   const asyncSetContacts = async() => {
     const _contacts = await AsyncStorage.getItem('@contacts')
     if (_contacts) setContacts(JSON.parse(_contacts))
@@ -22,19 +28,9 @@ const ContactsScreen = () => {
   }
 
   const resetContacts = () => {
-    setContacts([...preContacts]);
+    _setContacts([...preContacts]);
     console.log("reset contacts");
   }
-
-  useEffect(() => {
-    if(preContacts != contacts){
-      AsyncStorage.setItem(
-        '@contacts',
-        JSON.stringify(contacts),
-      );
-      console.log("updated contacts")
-    }
-  }, [contacts]);
   
   const onPressItem = async({ item, index }) => {
     console.log("pressed contacts");
@@ -44,7 +40,7 @@ const ContactsScreen = () => {
     console.log("deleted contacts");
     let _contacts = contacts;
     _contacts.splice(index, 1);
-    setContacts([..._contacts]);
+    _setContacts([..._contacts]);
   };
 
   return (
