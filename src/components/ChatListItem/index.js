@@ -6,26 +6,26 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 
 dayjs.extend(relativeTime);
 
-const ChatListItem = ({ chat, updateChats }) => {
+const ChatListItem = ({ item, onPressItem }) => {
   const navigation = useNavigation();
 
   return (
     <Pressable
-      onPress={() => navigation.navigate('Chat', { updateChats: updateChats.bind(), id: chat.id, name: chat.user.name })}
+      onPress={onPressItem}
       style={styles.container}
     >
-      <Image source={{ uri: chat.user.image }} style={styles.image} />
+      <Image source={{ uri: item.user.image }} style={styles.image} />
 
       <View style={styles.content}>
         <View style={styles.row}>
           <Text style={styles.name} numberOfLines={1}>
-            {chat.user.name}
+            {item.user.name}
           </Text>
-          <Text style={styles.subTitle}>{dayjs(chat.lastMessage.createdAt).fromNow(true)}</Text>
+          <Text style={styles.subTitle}>{dayjs(item.lastMessage.createdAt).fromNow(true)}</Text>
         </View>
 
         <Text numberOfLines={2} style={styles.subTitle}>
-          {chat.lastMessage.content}
+          {item.lastMessage.content}
         </Text>
       </View>
     </Pressable>

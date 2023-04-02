@@ -1,0 +1,33 @@
+[
+    {
+        "id": "preu1",
+        "name": "Elon Musk",
+        "image": "https://notjustdev-dummy.s3.us-east-2.amazonaws.com/avatars/elon.png",
+        "status": "Hey there! I am using ChatAnyone!"
+    },
+    {
+        "id": "preu2",
+        "name": "Albert Einstein",
+        "status": "Hey there! I am using ChatAnyone!"
+    },
+    {
+        "id": "preu3",
+        "name": "Rihanna",
+        "status": "Hey there! I am using ChatAnyone!"
+    },
+    {
+        "id": "preu4",
+        "name": "Tony Stark",
+        "status": "Hey there! I am using ChatAnyone!"
+    },
+    {
+        "id": "preu5",
+        "name": "Nikola Tesla",
+        "status": "Hey there! I am using ChatAnyone!"
+    },
+    {
+        "id": "preu6",
+        "name": "Bill Gates",
+        "status": "Hey there! I am using ChatAnyone!"
+    }
+]
