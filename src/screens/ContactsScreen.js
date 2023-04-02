@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { FlatList } from 'react-native';
+import { DeviceEventEmitter, FlatList } from 'react-native';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import preContacts from '../../assets/data/contacts.json';
 import ContactListItem from '../components/ContactListItem';
@@ -38,6 +38,9 @@ const ContactsScreen = () => {
   
   const onPressItem = async({ item, index }) => {
     console.log("pressed contacts");
+    //navigation.setParams({ func:"addChat", param:item});
+    navigation.push('Home', { event:"addChat", param: item}) // does not update route.param
+    DeviceEventEmitter.emit("event.addChat", {param: item}) // for call function
   }
 
   const deleteItem = ({ item, index }) => {
