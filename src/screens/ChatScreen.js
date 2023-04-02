@@ -37,11 +37,23 @@ const ChatScreen = () => {
   const addAttachment = async() => {
     console.log("Not ready in this version.");
   }
+  
+  const updateChats = async( _id, _lastMessage ) => {
+    let _chats = await AsyncStorage.getItem('@chats')
+    if (_chats) {
+      _chats = JSON.parse(_chats)
+      let foundIndex = _chats.findIndex(chat => chat.id === _id)
+      if(foundIndex != -1){
+        _chats[foundIndex].lastMessage = _lastMessage
+        AsyncStorage.setItem("@chats", JSON.stringify([..._chats]))
+      }
+    }
+  }
 
   const addMsg = (msgArr, userArr, _messages = messages) => {
     msgArr.id = Date.now();
     msgArr.createdAt = new Date().toISOString();
-    route.params.updateChats(route.params.id, msgArr);
+    updateChats(route.params.id, msgArr);
     msgArr.user = userArr;
 
     let updatedMsg = [msgArr, ..._messages];

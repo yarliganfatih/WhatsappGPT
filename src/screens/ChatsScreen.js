@@ -45,7 +45,7 @@ const ChatsScreen = () => {
   }, [chats]);
 
   const onPressItem = ({ item, index }) => {
-    navigation.navigate('Chat', { updateChats: updateChats, id: item.id, name: item.user.name });
+    navigation.navigate('Chat', { id: item.id, name: item.user.name });
   }
 
   const deleteItem = ({ item, index }) => {
@@ -55,16 +55,6 @@ const ChatsScreen = () => {
     console.log("deleted chat");
     // No deleting messages, remains in memory
   };
-
-  const updateChats = ( _id, _lastMessage ) => {
-    let _chats = chats;
-    let foundIndex = _chats.findIndex(chat => chat.id === _id)
-    if(foundIndex != -1){
-      _chats[foundIndex].lastMessage = _lastMessage;
-      _setChats([..._chats]);
-      console.log("updated chat");
-    }
-  }
 
   return (
     <FlatList

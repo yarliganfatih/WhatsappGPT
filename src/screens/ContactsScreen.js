@@ -34,6 +34,26 @@ const ContactsScreen = () => {
   
   const onPressItem = async({ item, index }) => {
     console.log("pressed contacts");
+    let _user = item
+    let _chats = await AsyncStorage.getItem('@chats')
+    if (_chats) {
+      _chats = JSON.parse(_chats)
+      let redirectChat
+      let foundIndex = _chats.findIndex(chat => chat.user.id === _user.id)
+      if(foundIndex != -1){
+        redirectChat = _chats[foundIndex]
+      }else{
+        let newChat = {
+          "id": Date.now(),
+          "user": _user,
+          "lastMessage": {}
+        }
+        AsyncStorage.setItem("@chats", JSON.stringify([newChat, ..._chats]))
+        redirectChat = newChat
+        console.log("created chat for", _user.name)
+      }
+      navigation.navigate('Chat', { id: redirectChat.id, name: redirectChat.user.name })
+    }
   }
 
   const deleteItem = ({ item, index }) => {

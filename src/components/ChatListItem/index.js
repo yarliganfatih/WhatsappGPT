@@ -9,12 +9,16 @@ dayjs.extend(relativeTime);
 const ChatListItem = ({ item, onPressItem }) => {
   const navigation = useNavigation();
 
+  const imgRender = (path) => {
+    return path ? { uri: path } : require('../../../assets/images/profilePhoto.png')
+  }
+
   return (
     <Pressable
       onPress={onPressItem}
       style={styles.container}
     >
-      <Image source={{ uri: item.user.image }} style={styles.image} />
+      <Image source={imgRender(item.user.image)} style={styles.image} />
 
       <View style={styles.content}>
         <View style={styles.row}>
