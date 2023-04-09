@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ImageBackground, StyleSheet, FlatList, KeyboardAvoidingView } from 'react-native';
+import { ImageBackground, StyleSheet, FlatList, KeyboardAvoidingView, Platform } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import Message from '../components/Message';

@@ -1,5 +1,5 @@
-import { View, Button } from 'react-native';
-import Swipeable from 'react-native-gesture-handler/Swipeable';
+import { TouchableOpacity, Text } from 'react-native';
+import { Swipeable, GestureHandlerRootView } from 'react-native-gesture-handler';
 
 let row: Array<any> = [];
 let prevOpenedRow;
@@ -14,7 +14,7 @@ const renderItem = ({ item, index }, Component, _onPressItem, _deleteItem) => {
 
     const renderRightActions = (progress, dragX, __deleteItem) => {
         return (
-            <View
+            <TouchableOpacity 
                 style={{
                     margin: 0,
                     alignContent: 'center',
@@ -22,22 +22,26 @@ const renderItem = ({ item, index }, Component, _onPressItem, _deleteItem) => {
                     width: 100,
                     backgroundColor: "red",
                     marginVertical: 5,
-                }}>
-                <Button color="white" onPress={__deleteItem} title="DELETE"></Button>
-            </View>
+                }}
+                onPress={__deleteItem}
+            >
+                <Text style={{color: 'white', alignSelf: 'center', fontWeight: 'bold'}}>DELETE</Text>
+            </TouchableOpacity>
         );
     };
 
     return (
-        <Swipeable
-            renderRightActions={(progress, dragX) =>
-                renderRightActions(progress, dragX, _deleteItem)
-            }
-            onSwipeableOpen={() => closeRow(index)}
-            ref={(ref) => (row[index] = ref)}
-            rightOpenValue={-100}>
-            <Component item={item} onPressItem={_onPressItem} />
-        </Swipeable>
+        <GestureHandlerRootView>
+            <Swipeable
+                renderRightActions={(progress, dragX) =>
+                    renderRightActions(progress, dragX, _deleteItem)
+                }
+                onSwipeableOpen={() => closeRow(index)}
+                ref={(ref) => (row[index] = ref)}
+                rightOpenValue={-100}>
+                <Component item={item} onPressItem={_onPressItem} />
+            </Swipeable>
+        </GestureHandlerRootView>
     );
 };
 

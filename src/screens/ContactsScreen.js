@@ -5,6 +5,7 @@ import { useRoute, useNavigation, useIsFocused } from '@react-navigation/native'
 import preContacts from '../../assets/data/contacts.json';
 import ContactListItem from '../components/ContactListItem';
 import SwipeableItem from '../components/Common/SwipeableItem';
+import preChats from '../../assets/data/chats.json';
 
 const ContactsScreen = () => {
   const route = useRoute();
@@ -32,12 +33,23 @@ const ContactsScreen = () => {
     console.log("reset contacts");
   }
   
+  const [chats, setChats] = useState(preChats);
+  useEffect(() => {
+    if (isFocused) {
+      Promise.resolve(asyncSetChats()).catch((e) => { throw e; });
+    }
+  }, [isFocused]);
+  const asyncSetChats = async() => {
+    const _chats = await AsyncStorage.getItem('@chats')
+    if (_chats) setChats(JSON.parse(_chats))
+    //resetChats()
+  }
+
   const onPressItem = async({ item, index }) => {
     console.log("pressed contacts");
     let _user = item
-    let _chats = await AsyncStorage.getItem('@chats')
+    let _chats = chats
     if (_chats) {
-      _chats = JSON.parse(_chats)
       let redirectChat
       let foundIndex = _chats.findIndex(chat => chat.user.id === _user.id)
       if(foundIndex != -1){

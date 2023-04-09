@@ -1,4 +1,5 @@
-import { Text, View, Image, StyleSheet, Pressable } from 'react-native';
+import { Text, View, Image, StyleSheet, Pressable, TouchableWithoutFeedback } from 'react-native';
+import { RectButton } from "react-native-gesture-handler";
 import { useNavigation } from '@react-navigation/native';
 
 import dayjs from 'dayjs';
@@ -14,7 +15,7 @@ const ChatListItem = ({ item, onPressItem }) => {
   }
 
   return (
-    <Pressable
+    <RectButton
       onPress={onPressItem}
       style={styles.container}
     >
@@ -32,7 +33,7 @@ const ChatListItem = ({ item, onPressItem }) => {
           {item.lastMessage.content}
         </Text>
       </View>
-    </Pressable>
+    </RectButton>
   );
 };
 
