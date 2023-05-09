@@ -86,7 +86,6 @@ const ContactsScreen = () => {
           () => { deleteItem(item) }
         )
       }
-      style={{ backgroundColor: 'white' }}
     />
   );
 };

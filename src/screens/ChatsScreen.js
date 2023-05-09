@@ -5,6 +5,7 @@ import { useRoute, useNavigation, useIsFocused } from '@react-navigation/native'
 import preChats from '../../assets/data/chats.json';
 import ChatListItem from '../components/ChatListItem';
 import SwipeableItem from '../components/Common/SwipeableItem';
+import { useTheme } from 'react-native-paper';
 
 const ChatsScreen = () => {
   const route = useRoute();
@@ -56,6 +57,7 @@ const ChatsScreen = () => {
     // No deleting messages, remains in memory
   };
 
+  const theme = useTheme();
   return (
     <FlatList
       data={chats}
@@ -68,7 +70,7 @@ const ChatsScreen = () => {
         )
       }
       keyExtractor={(item) => item.id}
-      style={{ backgroundColor: 'white' }}
+      style={{ backgroundColor: theme.colors.background }}
     />
   );
 };
